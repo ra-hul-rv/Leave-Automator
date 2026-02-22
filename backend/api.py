@@ -26,7 +26,7 @@ SECTION_LABELS = {
 # e.g. CORS_ORIGINS=https://your-app.vercel.app,https://custom-domain.com
 _default_origins = ["http://localhost:3000", "http://localhost:3001"]
 _extra_origins = [
-    o.strip() for o in os.environ.get("CORS_ORIGINS", "").split(",") if o.strip()
+    o.strip().rstrip("/") for o in os.environ.get("CORS_ORIGINS", "").split(",") if o.strip()
 ]
 ALLOWED_ORIGINS = _default_origins + _extra_origins
 
