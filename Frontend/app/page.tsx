@@ -6,7 +6,7 @@ export default function Home() {
       <main className="container mx-auto px-4">
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-gray-900 mb-2">
-            🗓️ India IT Holiday Planner 
+            🗓️ Indian IT Holidays Planner
           </h1>
           <p className="text-lg text-gray-600">
             Plan your perfect vacation by making the most of optional holidays and bridge leaves.

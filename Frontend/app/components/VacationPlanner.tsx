@@ -176,6 +176,59 @@ export default function VacationPlanner({
   };
 
   return (
+    <>
+    <style jsx global>{`
+      .vp-inputs {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-bottom: 12px;
+      }
+      .vp-input-group {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+      .vp-input-group input {
+        padding: 8px 10px;
+        border-radius: 8px;
+        border: 1px solid #d1d5db;
+      }
+      .vp-input-date { min-width: 180px; }
+      .vp-input-number { width: 140px; }
+      .vp-day-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+        gap: 6px;
+      }
+      .vp-summary-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 6px 20px;
+        font-size: 14px;
+      }
+      @media (max-width: 640px) {
+        .vp-input-group {
+          width: 100%;
+        }
+        .vp-input-group input,
+        .vp-input-date,
+        .vp-input-number {
+          width: 100% !important;
+          min-width: unset !important;
+          box-sizing: border-box;
+        }
+        .vp-submit-btn {
+          width: 100%;
+        }
+        .vp-day-grid {
+          grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        }
+        .vp-summary-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    `}</style>
     <div
       style={{
         marginTop: '12px',
@@ -197,54 +250,31 @@ export default function VacationPlanner({
       </h3>
 
       {/* Inputs */}
-      <div
-        style={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          gap: '12px',
-          marginBottom: '12px',
-        }}
-      >
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-          <label
-            style={{ fontSize: '12px', fontWeight: 600, color: '#374151' }}
-          >
+      <div className="vp-inputs">
+        <div className="vp-input-group">
+          <label style={{ fontSize: '12px', fontWeight: 600, color: '#374151' }}>
             Start date
           </label>
           <input
             type="date"
             value={planStart}
             onChange={(e) => setPlanStart(e.target.value)}
-            style={{
-              padding: '8px 10px',
-              borderRadius: '8px',
-              border: '1px solid #d1d5db',
-              minWidth: '180px',
-            }}
+            className="vp-input-date"
           />
         </div>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-          <label
-            style={{ fontSize: '12px', fontWeight: 600, color: '#374151' }}
-          >
+        <div className="vp-input-group">
+          <label style={{ fontSize: '12px', fontWeight: 600, color: '#374151' }}>
             End date
           </label>
           <input
             type="date"
             value={planEnd}
             onChange={(e) => setPlanEnd(e.target.value)}
-            style={{
-              padding: '8px 10px',
-              borderRadius: '8px',
-              border: '1px solid #d1d5db',
-              minWidth: '180px',
-            }}
+            className="vp-input-date"
           />
         </div>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-          <label
-            style={{ fontSize: '12px', fontWeight: 600, color: '#374151' }}
-          >
+        <div className="vp-input-group">
+          <label style={{ fontSize: '12px', fontWeight: 600, color: '#374151' }}>
             Optional allowance
           </label>
           <input
@@ -252,18 +282,14 @@ export default function VacationPlanner({
             min={0}
             value={optionalAllowance}
             onChange={(e) => setOptionalAllowance(Number(e.target.value))}
-            style={{
-              padding: '8px 10px',
-              borderRadius: '8px',
-              border: '1px solid #d1d5db',
-              width: '140px',
-            }}
+            className="vp-input-number"
           />
         </div>
-        <div style={{ display: 'flex', alignItems: 'flex-end' }}>
+        <div style={{ display: 'flex', alignItems: 'flex-end', width: '100%' }}>
           <button
             onClick={handleSubmit}
             disabled={planLoading}
+            className="vp-submit-btn"
             style={{
               padding: '10px 16px',
               borderRadius: '10px',
@@ -296,14 +322,7 @@ export default function VacationPlanner({
             color: '#111827',
           }}
         >
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: '1fr 1fr',
-              gap: '6px 20px',
-              fontSize: '14px',
-            }}
-          >
+          <div className="vp-summary-grid">
             <span>
               <strong>Range:</strong> {planResult.start_date} →{' '}
               {planResult.end_date}
@@ -416,13 +435,7 @@ export default function VacationPlanner({
                   </div>
 
                   {/* Day grid */}
-                  <div
-                    style={{
-                      display: 'grid',
-                      gridTemplateColumns: 'repeat(7, 1fr)',
-                      gap: '6px',
-                    }}
-                  >
+                  <div className="vp-day-grid">
                     {planResult.breakdown.map((d) => (
                       <DayCard
                         key={d.date}
@@ -439,5 +452,6 @@ export default function VacationPlanner({
         </div>
       )}
     </div>
+    </>
   );
 }

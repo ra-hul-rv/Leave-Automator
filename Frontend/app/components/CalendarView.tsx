@@ -98,6 +98,42 @@ export default function CalendarView({
         .fc-list-event-title {
           font-weight: 500;
         }
+
+        /* ---- Mobile responsive ---- */
+        @media (max-width: 640px) {
+          .fc {
+            padding: 8px 4px;
+          }
+          .fc-toolbar {
+            flex-direction: column !important;
+            gap: 8px !important;
+            align-items: flex-start !important;
+          }
+          .fc-toolbar-chunk {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+          }
+          .fc-toolbar-title {
+            font-size: 1rem !important;
+          }
+          .fc-button {
+            padding: 3px 7px !important;
+            font-size: 11px !important;
+          }
+          .fc-daygrid-day-number {
+            font-size: 11px;
+          }
+          .fc-event-title {
+            font-size: 10px !important;
+          }
+          .fc-col-header-cell-cushion {
+            font-size: 11px;
+          }
+          .fc-daygrid-day-top {
+            flex-direction: row;
+          }
+        }
       `}</style>
 
       <FullCalendar
