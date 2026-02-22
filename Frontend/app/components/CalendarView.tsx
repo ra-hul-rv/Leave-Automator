@@ -98,6 +98,30 @@ export default function CalendarView({
         .fc-list-event-title {
           font-weight: 500;
         }
+        .fc-daygrid-day-number {
+          color: #111827 !important;
+          opacity: 1 !important;
+          font-weight: 500;
+        }
+        .fc-col-header-cell-cushion {
+          color: #111827 !important;
+          opacity: 1 !important;
+          font-weight: 600;
+          text-decoration: none !important;
+        }
+        .fc-daygrid-day.fc-day-today .fc-daygrid-day-number {
+          color: #1d4ed8 !important;
+          font-weight: 700;
+        }
+        .fc-list-event-title a,
+        .fc-list-day-text,
+        .fc-list-day-side-text {
+          color: #111827 !important;
+          opacity: 1 !important;
+        }
+        .fc-day-other .fc-daygrid-day-number {
+          color: #9ca3af !important;
+        }
 
         /* ---- Mobile responsive ---- */
         @media (max-width: 640px) {
