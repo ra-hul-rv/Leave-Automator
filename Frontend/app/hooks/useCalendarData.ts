@@ -117,7 +117,7 @@ export function useCalendarData({
     } catch (error) {
       console.error('Error fetching calendar data:', error);
       alert(
-        'Failed to load calendar data. Make sure the backend server is running on port 8000.',
+        'Failed to load calendar data. Make sure the backend server is running.',
       );
     } finally {
       setLoading(false);
