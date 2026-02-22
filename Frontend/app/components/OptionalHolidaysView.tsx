@@ -23,6 +23,16 @@ function groupByMonth(holidays: Holiday[]): Record<string, Holiday[]> {
   return byMonth;
 }
 
+function countWeekendsInMonth(year: number, month: number): number {
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  let count = 0;
+  for (let d = 1; d <= daysInMonth; d++) {
+    const day = new Date(year, month, d).getDay();
+    if (day === 0 || day === 6) count++;
+  }
+  return count;
+}
+
 function OptionalHolidayCard({ holiday }: { holiday: Holiday }) {
   const d = new Date(holiday.date + 'T00:00:00');
   const isWeekend = d.getDay() === 0 || d.getDay() === 6;
@@ -216,7 +226,15 @@ export default function OptionalHolidaysView({
         </span>
       </div>
 
-      {Object.entries(byMonth).map(([month, monthHolidays]) => (
+      {Object.entries(byMonth).map(([month, monthHolidays]) => {
+        const firstDate = new Date(monthHolidays[0].date + 'T00:00:00');
+        const weekendCount = countWeekendsInMonth(firstDate.getFullYear(), firstDate.getMonth());
+        const hCount = monthHolidays.length;
+        const onWeekend = monthHolidays.filter((h) => {
+          const d = new Date(h.date + 'T00:00:00').getDay();
+          return d === 0 || d === 6;
+        }).length;
+        return (
         <div key={month} style={{ marginBottom: '20px' }}>
           <div
             style={{
@@ -228,9 +246,21 @@ export default function OptionalHolidaysView({
               marginBottom: '8px',
               paddingBottom: '6px',
               borderBottom: '1px solid #e5e7eb',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
             }}
           >
             {month}
+            <span style={{
+              fontWeight: 600,
+              color: '#9ca3af',
+              textTransform: 'none',
+              letterSpacing: 0,
+              fontSize: '11px',
+            }}>
+              ({hCount} optional{onWeekend > 0 ? `, ${onWeekend} on weekend` : ''} · {weekendCount} weekends)
+            </span>
           </div>
 
           {displayMode === 'card' ? (
@@ -258,7 +288,8 @@ export default function OptionalHolidaysView({
             </div>
           )}
         </div>
-      ))}
+        );
+      })}
     </div>
   );
 }

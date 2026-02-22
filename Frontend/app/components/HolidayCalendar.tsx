@@ -61,8 +61,9 @@ export default function HolidayCalendar({ year = DEFAULT_YEAR }: HolidayCalendar
           <label style={{ fontSize: '12px', fontWeight: 600, color: '#374151' }}>Company</label>
           <select
             defaultValue="Accenture"
+            className="hc-filter-control"
             style={{
-              padding: '8px 10px',
+              padding: '0 10px',
               borderRadius: '8px',
               border: '1px solid #d1d5db',
               width: '180px',
@@ -81,8 +82,9 @@ export default function HolidayCalendar({ year = DEFAULT_YEAR }: HolidayCalendar
           <select
             value={selectedState}
             onChange={(e) => setSelectedState(e.target.value)}
+            className="hc-filter-control"
             style={{
-              padding: '8px 10px',
+              padding: '0 10px',
               borderRadius: '8px',
               border: '1px solid #d1d5db',
               width: '180px',
@@ -104,7 +106,8 @@ export default function HolidayCalendar({ year = DEFAULT_YEAR }: HolidayCalendar
             type="date"
             value={dobOptional}
             onChange={(e) => setDobOptional(e.target.value)}
-            style={{ padding: '8px 10px', borderRadius: '8px', border: '1px solid #d1d5db', width: '180px', color: '#111827', background: '#fff' }}
+            className="hc-filter-control"
+            style={{ padding: '0 10px', borderRadius: '8px', border: '1px solid #d1d5db', width: '180px', fontSize: '14px', color: '#111827', background: '#fff' }}
           />
         </div>
       </div>
@@ -114,6 +117,10 @@ export default function HolidayCalendar({ year = DEFAULT_YEAR }: HolidayCalendar
           max-width: 1200px;
           margin: 0 auto;
           padding: 20px;
+        }
+        .hc-filter-control {
+          height: 38px;
+          box-sizing: border-box;
         }
         select, select option {
           color: #111827 !important;

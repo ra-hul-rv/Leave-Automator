@@ -193,6 +193,10 @@ export default function VacationPlanner({
         padding: 8px 10px;
         border-radius: 8px;
         border: 1px solid #d1d5db;
+        color: #111827 !important;
+        background: #fff !important;
+        opacity: 1 !important;
+        font-size: 14px;
       }
       .vp-input-date { min-width: 180px; }
       .vp-input-number { width: 140px; }
