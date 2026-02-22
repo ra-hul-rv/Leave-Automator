@@ -68,7 +68,9 @@ export default function HolidayCalendar({ year = DEFAULT_YEAR }: HolidayCalendar
               width: '180px',
               fontSize: '14px',
               background: '#fff',
+              color: '#111827',
               cursor: 'pointer',
+              appearance: 'auto',
             }}
           >
             <option value="Accenture">Accenture</option>
@@ -86,7 +88,9 @@ export default function HolidayCalendar({ year = DEFAULT_YEAR }: HolidayCalendar
               width: '180px',
               fontSize: '14px',
               background: '#fff',
+              color: '#111827',
               cursor: 'pointer',
+              appearance: 'auto',
             }}
           >
             {STATE_OPTIONS.map((s) => (
@@ -100,7 +104,7 @@ export default function HolidayCalendar({ year = DEFAULT_YEAR }: HolidayCalendar
             type="date"
             value={dobOptional}
             onChange={(e) => setDobOptional(e.target.value)}
-            style={{ padding: '8px 10px', borderRadius: '8px', border: '1px solid #d1d5db', width: '180px' }}
+            style={{ padding: '8px 10px', borderRadius: '8px', border: '1px solid #d1d5db', width: '180px', color: '#111827', background: '#fff' }}
           />
         </div>
       </div>
@@ -110,6 +114,16 @@ export default function HolidayCalendar({ year = DEFAULT_YEAR }: HolidayCalendar
           max-width: 1200px;
           margin: 0 auto;
           padding: 20px;
+        }
+        select, select option {
+          color: #111827 !important;
+          background: #fff !important;
+          opacity: 1 !important;
+        }
+        input[type="date"] {
+          color: #111827 !important;
+          background: #fff !important;
+          opacity: 1 !important;
         }
       `}</style>
 
