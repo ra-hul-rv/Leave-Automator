@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: leave-automator-api
+    runtime: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn api:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: CORS_ORIGINS
+        value: https://leave-automator.vercel.app  # Replace with your actual Vercel URL after first deploy

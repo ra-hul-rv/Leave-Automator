@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -21,9 +22,17 @@ SECTION_LABELS = {
 }
 
 # Configure CORS for Next.js frontend
+# Set CORS_ORIGINS env var to a comma-separated list of allowed origins in production.
+# e.g. CORS_ORIGINS=https://your-app.vercel.app,https://custom-domain.com
+_default_origins = ["http://localhost:3000", "http://localhost:3001"]
+_extra_origins = [
+    o.strip() for o in os.environ.get("CORS_ORIGINS", "").split(",") if o.strip()
+]
+ALLOWED_ORIGINS = _default_origins + _extra_origins
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://localhost:3001"],  # Add your Next.js ports
+    allow_origins=ALLOWED_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
