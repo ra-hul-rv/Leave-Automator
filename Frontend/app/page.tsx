@@ -9,7 +9,7 @@ export default function Home() {
             🗓️ Indian IT Holidays Planner
           </h1>
           <p className="text-lg text-gray-600">
-            Plan your perfect vacation by making the most of optional holidays and bridge leaves.
+            Plan your perfect vacation by making the most of the optional holidays and bridge leaves.
           </p>
           <p className="text-sm text-amber-600 mt-2">
             ⚠️ Always verify holiday dates against your company&apos;s official calendar before applying for leave.
