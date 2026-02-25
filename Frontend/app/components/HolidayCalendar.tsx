@@ -32,6 +32,7 @@ export default function HolidayCalendar({ year = DEFAULT_YEAR }: HolidayCalendar
     bridgeOpportunities,
     totalOptionalCount,
     loading,
+    error,
   } = useCalendarData({ year, selectedState, dobOptional });
 
   const handleHolidayClick = (holiday: HolidayInfo) => {
@@ -113,6 +114,25 @@ export default function HolidayCalendar({ year = DEFAULT_YEAR }: HolidayCalendar
           opacity: 1 !important;
         }
       `}</style>
+
+      {/* Error banner */}
+      {error && (
+        <div style={{
+          margin: '0 0 12px 0',
+          padding: '10px 14px',
+          background: '#fef2f2',
+          border: '1px solid #fca5a5',
+          borderRadius: '8px',
+          color: '#991b1b',
+          fontSize: '14px',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px',
+        }}>
+          <span>⚠️</span>
+          <span>{error}</span>
+        </div>
+      )}
 
       {/* Tabs row */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '8px' }}>

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { API_BASE_URL } from '@/app/lib/constants';
+import { smartFetch } from '@/app/lib/api';
 import type {
   CalendarEvent,
   CalendarSummary,
@@ -23,6 +23,7 @@ interface CalendarData {
   bridgeOpportunities: BridgeOpportunity[];
   totalOptionalCount: number;
   loading: boolean;
+  error: string | null;
   refetch: () => void;
 }
 
@@ -40,10 +41,12 @@ export function useCalendarData({
   >([]);
   const [totalOptionalCount, setTotalOptionalCount] = useState<number>(0);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   const fetchData = useCallback(async () => {
     try {
       setLoading(true);
+      setError(null);
       const params = new URLSearchParams({
         year: String(year),
         state: selectedState,
@@ -52,14 +55,14 @@ export function useCalendarData({
 
       const [calendarRes, fixedRes, optionalRes, summaryRes, bridgeRes] =
         await Promise.all([
-          fetch(`${API_BASE_URL}/api/calendar?${params.toString()}`),
-          fetch(
-            `${API_BASE_URL}/api/holidays/fixed?year=${year}&state=${encodeURIComponent(selectedState)}`,
+          smartFetch(`/api/calendar?${params.toString()}`),
+          smartFetch(
+            `/api/holidays/fixed?year=${year}&state=${encodeURIComponent(selectedState)}`,
           ),
-          fetch(`${API_BASE_URL}/api/holidays/optional?${params.toString()}`),
-          fetch(`${API_BASE_URL}/api/summary?${params.toString()}`),
-          fetch(
-            `${API_BASE_URL}/api/bridge-days?year=${year}&state=${encodeURIComponent(selectedState)}`,
+          smartFetch(`/api/holidays/optional?${params.toString()}`),
+          smartFetch(`/api/summary?${params.toString()}`),
+          smartFetch(
+            `/api/bridge-days?year=${year}&state=${encodeURIComponent(selectedState)}`,
           ),
         ]);
 
@@ -117,10 +120,10 @@ export function useCalendarData({
       setOptionalHolidays(optionalData.holidays ?? []);
       setBridgeOpportunities(bridgeData.opportunities ?? []);
       setTotalOptionalCount(bridgeData.total_optional_count ?? 0);
-    } catch (error) {
-      console.error('Error fetching calendar data:', error);
-      alert(
-        'Failed to load calendar data. Make sure the backend server is running.',
+    } catch (err) {
+      console.error('Error fetching calendar data:', err);
+      setError(
+        'Unable to reach the server. Please check your connection and try again.',
       );
     } finally {
       setLoading(false);
@@ -139,6 +142,7 @@ export function useCalendarData({
     bridgeOpportunities,
     totalOptionalCount,
     loading,
+    error,
     refetch: fetchData,
   };
 }

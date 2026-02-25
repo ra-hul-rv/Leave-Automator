@@ -38,6 +38,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+@app.get("/health")
+def health_check():
+    """Lightweight liveness probe used by the frontend to resolve the active API server."""
+    return {"status": "ok"}
+
 # -------------------- DATE PARSING --------------------
 
 def _parse_date(val):
@@ -414,6 +419,7 @@ def get_optional_holidays(year: int = 2026, dob: str = None, state: str = "Karna
     try:
         _, optional_df = load_holidays_data(state=state)
         optional_df = add_extra_optional(optional_df, [dob] if dob else [], year=year)
+        optional_df = optional_df.sort_values("Date").reset_index(drop=True)
         
         holidays = []
         for _, row in optional_df.iterrows():

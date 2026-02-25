@@ -1,7 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import { API_BASE_URL, DEFAULT_OPTIONAL_ALLOWANCE } from '@/app/lib/constants';
+import { DEFAULT_OPTIONAL_ALLOWANCE } from '@/app/lib/constants';
+import { smartFetch } from '@/app/lib/api';
 import type {
   Holiday,
   VacationPlanResult,
@@ -160,8 +161,8 @@ export default function VacationPlanner({
     if (dobOptional) params.append('dob', dobOptional);
 
     try {
-      const res = await fetch(
-        `${API_BASE_URL}/api/vacation-plan?${params.toString()}`,
+      const res = await smartFetch(
+        `/api/vacation-plan?${params.toString()}`,
       );
       const json = await res.json();
       if (!res.ok) {
