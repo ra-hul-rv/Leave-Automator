@@ -93,16 +93,19 @@ export function useCalendarData({
       });
 
       (optionalData.holidays ?? []).forEach((holiday: Holiday) => {
+        const isBirthday = holiday.name === 'Birthday (Optional)';
         calendarEvents.push({
           id: `optional-${holiday.date}`,
-          title: holiday.name,
+          title: isBirthday ? '🎂 Birthday (Optional)' : holiday.name,
           date: holiday.date,
-          backgroundColor: '#9ca3af',
-          borderColor: '#6b7280',
+          backgroundColor: isBirthday ? '#a855f7' : '#9ca3af',
+          borderColor: isBirthday ? '#7c3aed' : '#6b7280',
           textColor: '#fff',
           extendedProps: {
             type: 'optional',
-            description: `Optional Holiday - ${holiday.day}`,
+            description: isBirthday
+              ? `Birthday Optional Holiday - ${holiday.day}`
+              : `Optional Holiday - ${holiday.day}`,
             day: holiday.day,
           },
         });

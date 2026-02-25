@@ -143,15 +143,22 @@ def build_calendar(year, fixed_df, optional_df):
     return calendar_df
 
 
-def add_extra_optional(optional_df, extra_dates):
-    """Add user-supplied optional holidays (e.g., DOB) to optional list"""
+def add_extra_optional(optional_df, extra_dates, year: int = None):
+    """Add user-supplied optional holidays (e.g., DOB) to optional list.
+
+    The year component of each supplied date is replaced with `year` so that
+    a full date-of-birth like 1990-05-15 is normalised to e.g. 2026-05-15.
+    """
     if not extra_dates:
         return optional_df
     records = []
     for val in extra_dates:
         try:
             dt = pd.to_datetime(val)
-            records.append({"Date": dt, "Holiday Name": "Optional (User)"})
+            if year is not None:
+                # Normalise to the requested calendar year
+                dt = dt.replace(year=year)
+            records.append({"Date": dt, "Holiday Name": "Birthday (Optional)"})
         except Exception:
             continue
     if not records:
@@ -319,7 +326,7 @@ def get_vacation_plan(
             raise HTTPException(status_code=400, detail="end_date must be on or after start_date")
 
         fixed_df, optional_df = load_holidays_data(state=state)
-        optional_df = add_extra_optional(optional_df, [dob] if dob else [])
+        optional_df = add_extra_optional(optional_df, [dob] if dob else [], year=start_dt.year)
 
         calendar_df = build_calendar(start_dt.year, fixed_df, optional_df)
         window_mask = (calendar_df["Date"] >= start_dt) & (calendar_df["Date"] <= end_dt)
@@ -406,7 +413,7 @@ def get_optional_holidays(year: int = 2026, dob: str = None, state: str = "Karna
     """Get all optional holidays for the year"""
     try:
         _, optional_df = load_holidays_data(state=state)
-        optional_df = add_extra_optional(optional_df, [dob] if dob else [])
+        optional_df = add_extra_optional(optional_df, [dob] if dob else [], year=year)
         
         holidays = []
         for _, row in optional_df.iterrows():
@@ -427,7 +434,7 @@ def get_calendar(year: int = 2026, month: int = None, optional_count: int = 2, c
     """Get full calendar with all markings"""
     try:
         fixed_df, optional_df = load_holidays_data(state=state)
-        optional_df = add_extra_optional(optional_df, [dob] if dob else [])
+        optional_df = add_extra_optional(optional_df, [dob] if dob else [], year=year)
 
         calendar_df = build_calendar(year, fixed_df, optional_df)
         if end_date:
@@ -473,7 +480,7 @@ def get_vacation_recommendations(
     """Get best vacation recommendations based on optional and casual holidays"""
     try:
         fixed_df, optional_df = load_holidays_data(state=state)
-        optional_df = add_extra_optional(optional_df, [dob] if dob else [])
+        optional_df = add_extra_optional(optional_df, [dob] if dob else [], year=year)
 
         calendar_df = build_calendar(year, fixed_df, optional_df)
         if start_date:
@@ -755,7 +762,7 @@ def get_summary(year: int = 2026, optional_count: int = 2, casual_count: int = 0
     """Get summary statistics for the year"""
     try:
         fixed_df, optional_df = load_holidays_data(state=state)
-        optional_df = add_extra_optional(optional_df, [dob] if dob else [])
+        optional_df = add_extra_optional(optional_df, [dob] if dob else [], year=year)
 
         calendar_df = build_calendar(year, fixed_df, optional_df)
         total_fixed = len(fixed_df)

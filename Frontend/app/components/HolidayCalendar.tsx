@@ -58,26 +58,6 @@ export default function HolidayCalendar({ year = DEFAULT_YEAR }: HolidayCalendar
       {/* Filters */}
       <div style={{ marginBottom: '16px', display: 'flex', gap: '12px', flexWrap: 'wrap', alignItems: 'flex-end' }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-          <label style={{ fontSize: '12px', fontWeight: 600, color: '#374151' }}>Company</label>
-          <select
-            defaultValue="Accenture"
-            className="hc-filter-control"
-            style={{
-              padding: '0 10px',
-              borderRadius: '8px',
-              border: '1px solid #d1d5db',
-              width: '180px',
-              fontSize: '14px',
-              background: '#fff',
-              color: '#111827',
-              cursor: 'pointer',
-              appearance: 'auto',
-            }}
-          >
-            <option value="Accenture">Accenture</option>
-          </select>
-        </div>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
           <label style={{ fontSize: '12px', fontWeight: 600, color: '#374151' }}>State</label>
           <select
             value={selectedState}
