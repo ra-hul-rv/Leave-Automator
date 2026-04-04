@@ -25,12 +25,14 @@ export interface BridgeDay {
   label?: string;
   optional_name?: string;
   leaf_type?: string;
+  is_optional?: boolean;
 }
 
 export interface BridgeOpportunity {
   window_start: string;
   window_end: string;
   total_days: number;
+  leave_days_needed?: number;
   month: string;
   days: BridgeDay[];
   optional_bridge_count: number;
@@ -66,6 +68,8 @@ export interface VacationPlanResult {
   non_working_days: number;
   optional_holiday_count: number;
   optional_holiday_count_working?: number;
+  optional_holidays?: string[];
+  optional_holidays_working?: string[];
   optional_applied: number;
   leaves_required: number;
   no_optional_available?: boolean;

@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import type { EventClickArg, EventContentArg } from '@fullcalendar/core';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
@@ -16,7 +17,7 @@ export default function CalendarView({
   events,
   onHolidayClick,
 }: CalendarViewProps) {
-  const handleEventClick = (info: any) => {
+  const handleEventClick = (info: EventClickArg) => {
     const event = info.event;
     const props = event.extendedProps;
     onHolidayClick({
@@ -28,7 +29,7 @@ export default function CalendarView({
     });
   };
 
-  const renderEventContent = (eventInfo: any) => (
+  const renderEventContent = (eventInfo: EventContentArg) => (
     <div className="fc-event-content" style={{ padding: '2px 4px' }}>
       <div
         className="fc-event-title"

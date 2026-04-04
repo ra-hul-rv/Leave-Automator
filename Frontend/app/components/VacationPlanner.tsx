@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { DEFAULT_OPTIONAL_ALLOWANCE } from '@/app/lib/constants';
-import { smartFetch } from '@/app/lib/api';
+import { computeVacationPlan } from '@/app/lib/holidayEngine';
 import type {
   Holiday,
   VacationPlanResult,
@@ -152,25 +152,18 @@ export default function VacationPlanner({
     setPlanError(null);
     setPlanResult(null);
 
-    const params = new URLSearchParams({
-      start_date: planStart,
-      end_date: planEnd,
-      optional_allowance: String(optionalAllowance || 0),
-      state: selectedState,
-    });
-    if (dobOptional) params.append('dob', dobOptional);
-
     try {
-      const res = await smartFetch(
-        `/api/vacation-plan?${params.toString()}`,
-      );
-      const json = await res.json();
-      if (!res.ok) {
-        throw new Error(json?.detail ?? 'Failed to plan vacation');
-      }
-      setPlanResult(json);
-    } catch (err: any) {
-      setPlanError(err?.message ?? 'Failed to plan vacation');
+      const result = await computeVacationPlan({
+        year: new Date(planStart).getFullYear(),
+        state: selectedState,
+        startDate: planStart,
+        endDate: planEnd,
+        optionalAllowance: optionalAllowance || 0,
+        dobOptional,
+      });
+      setPlanResult(result);
+    } catch (err: unknown) {
+      setPlanError(err instanceof Error ? err.message : 'Failed to plan vacation');
     } finally {
       setPlanLoading(false);
     }
